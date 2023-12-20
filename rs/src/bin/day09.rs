@@ -15,6 +15,9 @@ fn main() {
 
     let result1 = part1(&data);
     println!("part1: {result1}");
+
+    let result2 = part2(&data);
+    println!("part2: {result2}");
 }
 
 fn parse(input: &str) -> Result<Data, String> {
@@ -54,6 +57,14 @@ impl Sequence {
         }
     }
 
+    fn previous(&self) -> i32 {
+        if self.0.iter().all(|v| *v == 0) {
+            0
+        } else {
+            self.0.first().unwrap() - self.delta().previous()
+        }
+    }
+
     fn delta(&self) -> Self {
         Self(self.0.windows(2).map(|w| w[1] - w[0]).collect())
     }
@@ -61,4 +72,8 @@ impl Sequence {
 
 fn part1(data: &Data) -> i32 {
     data.0.iter().map(|s| s.next()).sum()
+}
+
+fn part2(data: &Data) -> i32 {
+    data.0.iter().map(|s| s.previous()).sum()
 }
