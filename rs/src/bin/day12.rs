@@ -90,7 +90,6 @@ impl Row {
 
         let base: u32 = 2;
         (0..=(base.pow(nr_unknowns) - 1))
-            .into_iter()
             // to binary string of length nr_unknowns
             .map(|n| format!("{:0width$b}", n, width = nr_unknowns as usize))
             // to Vec<SpringStatus>: 0 -> Damaged, 1 -> Operational
@@ -157,12 +156,12 @@ impl SpringStatus {
     }
 }
 
-impl ToString for SpringStatus {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for SpringStatus {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            SpringStatus::Operational => ".".into(),
-            SpringStatus::Damaged => "#".into(),
-            SpringStatus::Unknown => "?".into(),
+            SpringStatus::Operational => write!(f, "."),
+            SpringStatus::Damaged => write!(f, "#"),
+            SpringStatus::Unknown => write!(f, "?"),
         }
     }
 }
