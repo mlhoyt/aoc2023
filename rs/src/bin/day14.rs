@@ -60,14 +60,7 @@ impl Data {
     fn mirror_y(&self) -> Self {
         (self.0)
             .iter()
-            .map(|v| {
-                (v.0)
-                    .iter()
-                    .rev()
-                    .map(|v| v.clone())
-                    .collect::<Vec<_>>()
-                    .into()
-            })
+            .map(|v| (v.0).iter().rev().cloned().collect::<Vec<_>>().into())
             .collect::<Vec<_>>()
             .into() // Self
     }
@@ -77,19 +70,10 @@ impl Data {
             .iter()
             .map(|v| {
                 (v.0)
-                    .split(|v| match v {
-                        RockType::Cube => true,
-                        _ => false,
-                    })
+                    .split(|v| matches!(v, RockType::Cube))
                     .map(|v| {
                         // count RockType::Round
-                        let n_round = v
-                            .iter()
-                            .filter(|v| match v {
-                                RockType::Round => true,
-                                _ => false,
-                            })
-                            .count();
+                        let n_round = v.iter().filter(|v| matches!(v, RockType::Round)).count();
 
                         // produce new slice of (round * round_count)
                         std::iter::repeat(RockType::Round)
@@ -129,10 +113,7 @@ impl Data {
                 let multiplier = n_rows - ri;
                 let n_round = (r.0)
                     .iter()
-                    .filter(|v| match v {
-                        RockType::Round => true,
-                        _ => false,
-                    })
+                    .filter(|v| matches!(v, RockType::Round))
                     .count();
 
                 n_round * multiplier
