@@ -1,4 +1,4 @@
-// pub mod grid2d;
+pub mod grid2d;
 
 use std::io::{BufRead, BufReader};
 

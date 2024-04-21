@@ -204,6 +204,7 @@ impl std::fmt::Display for RockType {
         }
     }
 }
+
 #[derive(Debug)]
 enum Direction {
     North,
